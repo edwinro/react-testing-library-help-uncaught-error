@@ -27,9 +27,22 @@ class ComponentToTest extends React.PureComponent {
   }
 }
 
-test('renders counter', async () => {
+test('Test flag shown to user - v1', async () => {
   render(<ComponentToTest />);
   const button = screen.getByText(/click me/i);
-  userEvent.click(button);
+  await userEvent.click(button);
   await screen.getByText("Error code 123"); // flag show
+})
+
+test('Test flag shown to user - v2', async () => {
+  try {
+    render(<ComponentToTest />);
+    const button = screen.getByText(/click me/i);
+    await userEvent.click(button);
+  } catch (e) {
+    // ignore error
+  } finally {
+    await screen.getByText("Error code 123"); // check flag show
+  }
+
 })

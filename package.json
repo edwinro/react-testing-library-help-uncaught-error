@@ -4,12 +4,12 @@
   "description": "Use this to get help with React Testing Library",
   "private": true,
   "dependencies": {
-    "@testing-library/jest-dom": "5.11.1",
-    "@testing-library/react": "10.4.7",
-    "@testing-library/user-event": "12.0.11",
-    "react": "16.13.1",
-    "react-dom": "16.13.1",
-    "react-scripts": "3.4.1"
+    "@testing-library/jest-dom": "6.6.2",
+    "@testing-library/react": "16.0.1",
+    "@testing-library/user-event": "14.5.2",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "react-scripts": "5.0.1"
   },
   "scripts": {
     "start": "react-scripts start",
