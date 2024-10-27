@@ -1,31 +1,35 @@
-/*
-Hi! Need help with React Testing Library? The best way to get it is by forking
-this repository, making a reproduction of your issue (or showing what you're
-trying to do), and posting a link to your fork on our Discord chat:
-
-https://testing-library.com/discord
-*/
-
-// here's an example
 import React from 'react'
 import '@testing-library/jest-dom'
 import userEvent from '@testing-library/user-event'
 import {render, screen} from '@testing-library/react'
 
-function Counter() {
-  const [count, setCount] = React.useState(0)
-  return (
-    <>
-      <p>{count}</p>
-      <button onClick={() => setCount(count + 1)}>click me</button>
-    </>
-  )
+
+class ComponentToTest extends React.PureComponent {
+
+  constructor(props, context) {
+    super(props, context)
+    this.state= {
+      flag : undefined // shown to user if an error occurs
+    }
+  }
+
+  render() {
+    return <div>
+      <div onClick={async () => {
+        const someCheckResult = false; // assume check fails - this is what we want to test
+        if (!someCheckResult) {
+          this.setState({flag: "Error code 123"})
+          throw new Error('Error code 123 handled'); // the error is thrown to prevent further processing down the road. In reality this error is in another method shared by multiple components
+        }
+      }}>click me</div>
+      {this.state.flag ?? ""}
+    </div>
+  }
 }
 
 test('renders counter', async () => {
-  render(<Counter />)
-  const count = screen.getByText('0')
-  const button = screen.getByText(/click me/i)
-  userEvent.click(button)
-  expect(count).toHaveTextContent('1')
+  render(<ComponentToTest />);
+  const button = screen.getByText(/click me/i);
+  userEvent.click(button);
+  await screen.getByText("Error code 123"); // flag show
 })
